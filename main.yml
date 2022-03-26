@@ -1,0 +1,44 @@
+name: Firebase function deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy_to_production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: cd functions/ && npm ci
+
+      - name: create env json
+        uses: jsdaniell/create-json@1.1.2
+        id: create-env-json
+        with:
+          name: 'env.json'
+          json: '{"SOME_KEY" : "${{secrets.SOME_KEY}}" }'
+          dir: 'functions/'
+
+      - name: clear env configs
+        uses: w9jds/firebase-action@master
+        with:
+          args: functions:config:unset env
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: set env configs
+        uses: w9jds/firebase-action@master
+        with:
+          args: functions:config:set env=\"$(cat functions/env.json)\"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: deploy to production
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
