@@ -18,7 +18,7 @@ jobs:
         id: create-env-json
         with:
           name: 'env.json'
-          json: '{"SOME_KEY" : "${{secrets.SOME_KEY}}" }'
+          json: '{"HANGOUT_WEB_HOOK" : "${{secrets.HANGOUT_WEB_HOOK}}" }'
           dir: 'functions/'
 
       - name: clear env configs
