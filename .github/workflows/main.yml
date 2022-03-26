@@ -2,8 +2,7 @@ name: Firebase function deploy
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   deploy_to_production:
