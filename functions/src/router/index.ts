@@ -3,6 +3,6 @@ import {GitlabController} from "../controllers/GitlabController";
 
 const router = Router();
 
-router.post("gitlab", GitlabController.handleHook);
+router.post("/gitlab", GitlabController.handleHook);
 
 export default router;
