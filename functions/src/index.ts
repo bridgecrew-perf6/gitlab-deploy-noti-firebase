@@ -10,7 +10,6 @@ app.get("/", (req, res) => {
   res.send("Gitlab deployment notification");
 });
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const gitlabDeployNofiApi = firebaseFunctions.https.onRequest(app);
+export const api = firebaseFunctions
+    .region("asia-southeast1")
+    .https.onRequest(app);
